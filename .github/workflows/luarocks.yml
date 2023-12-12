@@ -31,26 +31,14 @@ jobs:
           version: ${{ env.LUAROCKS_VERSION }}
           test_interpreters: ""
           dependencies: |
-            toml-edit
-            toml
-            fidget.nvim >= 1.1.0
-            fzy
+            rocks.nvim >= 2.3.3
           labels: |
             neovim
           detailed_description: |
-            rocks.nvim is an all in one solution for installing and managing
-            Neovim plugins through the luarocks package manager.
-
-            It supports dependency management, build scripts,
-            all defined from a single rocks.toml file.
+            rocks-config.nvim is a rocks.nvim utility module for helping to configure
+            your Neovim setup.
 
             Features:
-
-              - Cargo-like rocks.toml file for declaring all your plugins.
-              - Name-based installation ("nvim-neorg/neorg" becomes :Rocks install neorg instead).
-              - Automatic dependency and build script management.
-              - True semver versioning!
-              - Minimal, non-intrusive UI.
-              - Async execution.
-              - Extensible, with a Lua API.
-              - Command completions for plugins on luarocks.org.
+            - Execute a specific Lua file per plugin
+            - Automatically invoke the setup() function for every installed plugin
+            - Statically configure a plugin using TOML syntax directly from within your rocks.toml
