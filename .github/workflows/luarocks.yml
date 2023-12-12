@@ -1,0 +1,56 @@
+name: Push to Luarocks
+
+on:
+  push:
+    tags:
+      - '*'
+  release:
+    types:
+      - created
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  luarocks-upload:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Required to count the commits
+      - name: Get Version
+        run: echo "LUAROCKS_VERSION=$(git describe --abbrev=0 --tags)" >> $GITHUB_ENV
+      - name: Install Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          rustflags: ""
+      - name: LuaRocks Upload
+        uses: nvim-neorocks/luarocks-tag-release@v5
+        env:
+          LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
+        with:
+          version: ${{ env.LUAROCKS_VERSION }}
+          test_interpreters: ""
+          dependencies: |
+            toml-edit
+            toml
+            fidget.nvim >= 1.1.0
+            fzy
+          labels: |
+            neovim
+          detailed_description: |
+            rocks.nvim is an all in one solution for installing and managing
+            Neovim plugins through the luarocks package manager.
+
+            It supports dependency management, build scripts,
+            all defined from a single rocks.toml file.
+
+            Features:
+
+              - Cargo-like rocks.toml file for declaring all your plugins.
+              - Name-based installation ("nvim-neorg/neorg" becomes :Rocks install neorg instead).
+              - Automatic dependency and build script management.
+              - True semver versioning!
+              - Minimal, non-intrusive UI.
+              - Async execution.
+              - Extensible, with a Lua API.
+              - Command completions for plugins on luarocks.org.
