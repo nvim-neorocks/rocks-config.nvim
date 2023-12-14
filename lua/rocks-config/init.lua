@@ -27,7 +27,7 @@ function rocks_config.setup(user_configuration)
 
             local ok, err = pcall(require, search)
 
-            if not ok and type(err) ~= "boolean" and not err:match("module%s+." .. search:gsub("%p", "%%%1") .. ".%s+not%s+found") then
+            if not ok and type(err) == "string" and not err:match("module%s+." .. search:gsub("%p", "%%%1") .. ".%s+not%s+found") then
                 error(err)
             end
         end
