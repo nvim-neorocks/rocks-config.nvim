@@ -41,7 +41,7 @@ function rocks_config.setup(user_configuration)
             for _, possible_match in ipairs(plugin_heuristics) do
                 local ok, maybe_module = pcall(require, possible_match)
 
-                if ok then
+                if ok and type(maybe_module) == "table" and type(maybe_module.setup) == "function" then
                     maybe_module.setup()
                 end
             end
