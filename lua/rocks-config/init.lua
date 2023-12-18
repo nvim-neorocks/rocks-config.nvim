@@ -22,6 +22,8 @@ function rocks_config.setup(user_configuration)
     for name, _ in pairs(user_configuration.plugins or {}) do
         local plugin_heuristics = create_plugin_heuristics(name)
 
+        local found_custom_configuration = false
+
         for _, possible_match in ipairs(plugin_heuristics) do
             local search = table.concat({ config.config.plugins_dir, possible_match }, ".")
 
@@ -29,6 +31,19 @@ function rocks_config.setup(user_configuration)
 
             if not ok and type(err) == "string" and not err:match("module%s+." .. search:gsub("%p", "%%%1") .. ".%s+not%s+found") then
                 error(err)
+            end
+
+            found_custom_configuration = found_custom_configuration or ok
+        end
+
+        -- If there is no custom configuration defined by the user then attempt to autoinvoke the setup() function.
+        if not found_custom_configuration and config.config.auto_setup then
+            for _, possible_match in ipairs(plugin_heuristics) do
+                local ok, maybe_module = pcall(require, possible_match)
+
+                if ok then
+                    maybe_module.setup()
+                end
             end
         end
     end
