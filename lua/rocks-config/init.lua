@@ -15,6 +15,10 @@ local function create_plugin_heuristics(name)
 end
 
 function rocks_config.setup(user_configuration)
+    if not user_configuration then
+        return
+    end
+
     local config = vim.tbl_deep_extend("force", constants.DEFAULT_CONFIG, user_configuration or {})
 
     config.config.plugins_dir = config.config.plugins_dir:gsub("[%.%/%\\]+$", "")
