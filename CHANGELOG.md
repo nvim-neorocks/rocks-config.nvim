@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.2](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.1.1...v1.1.2) (2023-12-18)
+
+
+### Bug Fixes
+
+* don't run setup() function if it is invoked without correct parameters ([abb374c](https://github.com/nvim-neorocks/rocks-config.nvim/commit/abb374c76d0a91c4a22ed1222d97c70243ba10a0))
+* ensure `user_configuration` is a table ([ec026f7](https://github.com/nvim-neorocks/rocks-config.nvim/commit/ec026f74ee563641b77a2e07d935ac080deb9e09))
+
 ## [1.1.1](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.1.0...v1.1.1) (2023-12-18)
 
 
