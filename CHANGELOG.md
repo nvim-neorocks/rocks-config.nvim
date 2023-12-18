@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.0.1...v1.1.0) (2023-12-18)
+
+
+### Features
+
+* add auto_setup option ([c298f1d](https://github.com/nvim-neorocks/rocks-config.nvim/commit/c298f1d9a625543ca44416e836e4a04277f53c6e))
+
 ## [1.0.1](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.0.0...v1.0.1) (2023-12-14)
 
 
