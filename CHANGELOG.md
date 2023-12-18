@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.1.0...v1.1.1) (2023-12-18)
+
+
+### Bug Fixes
+
+* setup() not found error ([a92809b](https://github.com/nvim-neorocks/rocks-config.nvim/commit/a92809bec557b2f9957a7a99a61af9f3f9bba954))
+
 ## [1.1.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.0.1...v1.1.0) (2023-12-18)
 
 
