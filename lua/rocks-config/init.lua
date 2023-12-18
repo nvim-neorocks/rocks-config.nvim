@@ -15,7 +15,7 @@ local function create_plugin_heuristics(name)
 end
 
 function rocks_config.setup(user_configuration)
-    if not user_configuration then
+    if not user_configuration or type(user_configuration) ~= "table" then
         return
     end
 
