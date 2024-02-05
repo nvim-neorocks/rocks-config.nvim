@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.2.0...v1.2.1) (2024-02-05)
+
+
+### Bug Fixes
+
+* **plugin:** prevent sourcing more than once ([cca36f3](https://github.com/nvim-neorocks/rocks-config.nvim/commit/cca36f3408e3e26ffaf2bf8ea966c65612b10a8f))
+
 ## [1.2.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.1.2...v1.2.0) (2023-12-18)
 
 
