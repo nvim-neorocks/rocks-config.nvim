@@ -16,3 +16,4 @@ jobs:
         with:
           release-type: simple
           package-name: rocks-config.nvim
+          signoff: "Marc Jakobi<marc@jakobi.dev>"
