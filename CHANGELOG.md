@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.2.1...v1.2.2) (2024-02-29)
+
+
+### Bug Fixes
+
+* run plugin configurations after the whole configuration has executed ([f9c46aa](https://github.com/nvim-neorocks/rocks-config.nvim/commit/f9c46aa27d7b2d43ab74fbc67d6c631200150b26))
+
 ## [1.2.1](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.2.0...v1.2.1) (2024-02-05)
 
 
