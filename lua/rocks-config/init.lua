@@ -14,6 +14,28 @@ local function create_plugin_heuristics(name)
     }
 end
 
+---Tries to load a module, without panicking if it is not found.
+---Will panic if the module is found and loading it panics.
+---@param mod_name string The module name
+---@return boolean loaded
+local function try_load_config(mod_name)
+    if package.loaded[mod_name] then
+        return true
+    end
+    -- Loaders that search `package.preload` and `package.path`.
+    -- We don't need to search the cpath or neovim's runtimepath,
+    -- as the nvim `lua` directory is added to the `package.path`.
+    for _, searcher in ipairs({ package.loaders[1], package.loaders[2] }) do
+        local loader = searcher(mod_name)
+        if type(loader) == 'function' then
+            package.preload[mod_name] = loader
+            package.loaded[mod_name] = loader()
+            return true
+        end
+    end
+    return false
+end
+
 function rocks_config.setup(user_configuration)
     if not user_configuration or type(user_configuration) ~= "table" then
         return
@@ -29,18 +51,8 @@ function rocks_config.setup(user_configuration)
         local found_custom_configuration = false
 
         for _, possible_match in ipairs(plugin_heuristics) do
-            local search = table.concat({ config.config.plugins_dir, possible_match }, ".")
-
-            local ok, err = pcall(require, search)
-
-            if
-                not ok
-                and type(err) == "string"
-                and not err:match("module%s+." .. search:gsub("%p", "%%%1") .. ".%s+not%s+found")
-            then
-                error(err)
-            end
-
+            local mod_name = table.concat({ config.config.plugins_dir, possible_match }, ".")
+            local ok = try_load_config(mod_name)
             found_custom_configuration = found_custom_configuration or ok
         end
 
