@@ -38,7 +38,7 @@ and you are good to go!
 ## :books: Usage
 
 With this extension, you can add a `[config]` table to your `rocks.toml`,
-for example
+for example:
 
 ```toml
 [plugins]
@@ -87,6 +87,34 @@ and load it if one is found.
 If you uninstall a plugin, you can leave its config (e.g. in case
 you would like to reinstall it later), and it will not cause any
 problems.
+
+#### `<plugin>.config` - Adding basic configurations to rocks.toml
+
+Many Neovim plugins require a call to a `setup` function,
+which typically takes a configuration table.
+If none of the configuration options are lua functions,
+you can add the config to your rocks.toml, and this plugin
+will automatically call `setup` with the plugin's options.
+
+For example, the following lua configuration:
+
+```lua
+-- lua/plugins/lualine.lua
+require('lualine').setup {
+  options = {
+    icons_enabled = true,
+    theme = 'auto',
+  },
+}
+```
+
+...can also be configured via rocks.toml:
+
+```toml
+# rocks.toml
+[plugins.lualine.config]
+options = { icons_enabled = true, theme = "auto" }
+```
 
 #### `auto_setup`
 
