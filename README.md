@@ -71,6 +71,19 @@ Upon startup, for each plugin in the `rocks.toml`'s `[plugins]`
 table, this module will search for a matching config module in
 and load it if one is found.
 
+> [!NOTE]
+>
+> Possible config file names are:
+>
+> - The plugin's name (as long as it is a valid module name).
+> - The plugin's name with the `.[n]vim` suffix removed[^1].
+> - The plugin's name with the `[n]vim-` prefix removed[^2].
+> - The plugin's name with `"-"` substituted for `"."`[^3].
+
+[^1]: For example, a config file for a plugin called `foo.nvim` could be named `foo.lua`.
+[^2]: For example, a config file for a plugin called `nvim-foo` could be named `foo.lua`.
+[^3]: For example, a config file for a plugin called `foo.bar` could be named `foo-bar.lua`.
+
 If you uninstall a plugin, you can leave its config (e.g. in case
 you would like to reinstall it later), and it will not cause any
 problems.
