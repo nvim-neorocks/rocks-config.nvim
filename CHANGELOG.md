@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.2.2...v1.2.3) (2024-03-19)
+
+
+### Performance Improvements
+
+* only search `package.preloaded` and `package.path` for configs ([30a37f0](https://github.com/nvim-neorocks/rocks-config.nvim/commit/30a37f0edce9cd0b139716cc86b00145630e3865))
+
 ## [1.2.2](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.2.1...v1.2.2) (2024-02-29)
 
 
