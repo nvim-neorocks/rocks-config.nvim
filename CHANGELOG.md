@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.2.2...v1.2.3) (2024-03-20)
+
+
+### Bug Fixes
+
+* use new `rocks.hooks.preload` API to load configs ([#19](https://github.com/nvim-neorocks/rocks-config.nvim/issues/19)) ([5c45b74](https://github.com/nvim-neorocks/rocks-config.nvim/commit/5c45b743daaa3d719eaf641795692ced3d6c3cc0))
+
 ## [1.2.2](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.2.1...v1.2.2) (2024-02-29)
 
 
