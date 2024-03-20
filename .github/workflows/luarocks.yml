@@ -31,7 +31,7 @@ jobs:
           version: ${{ env.LUAROCKS_VERSION }}
           test_interpreters: ""
           dependencies: |
-            rocks.nvim >= 2.3.3
+            rocks.nvim >= 2.17.0
           labels: |
             neovim
           detailed_description: |
