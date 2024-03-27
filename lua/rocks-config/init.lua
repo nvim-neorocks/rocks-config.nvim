@@ -10,6 +10,7 @@ local function create_plugin_heuristics(name)
     return {
         name,
         name:gsub("[%.%-]n?vim$", ""):gsub("n?vim%-", ""),
+        name:gsub("%.", "-"),
         name .. "-nvim",
     }
 end
