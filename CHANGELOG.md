@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.2.3...v1.3.0) (2024-04-06)
+
+
+### Features
+
+* add `-` as a substitution for `.` to plugin heuristics ([91845e1](https://github.com/nvim-neorocks/rocks-config.nvim/commit/91845e1ca4ead1bff02bb1e6c4ba56d94909aefd))
+* add `colorscheme` option ([88f2626](https://github.com/nvim-neorocks/rocks-config.nvim/commit/88f2626cb21ce5a25cf044c4f849172de001631b))
+
+
+### Performance Improvements
+
+* only search `package.preloaded` and `package.path` for configs ([110ffdd](https://github.com/nvim-neorocks/rocks-config.nvim/commit/110ffddecad84c63c90500d06c0fb854ea1e8e89))
+
 ## [1.2.3](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.2.2...v1.2.3) (2024-03-20)
 
 
