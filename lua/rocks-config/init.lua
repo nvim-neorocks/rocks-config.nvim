@@ -26,7 +26,7 @@ local function try_load_config(mod_name)
     -- Loaders that search `package.preload` and `package.path`.
     -- We don't need to search the cpath or neovim's runtimepath,
     -- as the nvim `lua` directory is added to the `package.path`.
-    for _, searcher in ipairs({ package.loaders[1], package.loaders[2] }) do
+    for _, searcher in ipairs(package.loaders) do
         local loader = searcher(mod_name)
         if type(loader) == 'function' then
             package.preload[mod_name] = loader
