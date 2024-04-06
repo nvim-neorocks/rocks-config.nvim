@@ -28,7 +28,7 @@ local function try_load_config(mod_name)
     -- as the nvim `lua` directory is added to the `package.path`.
     for _, searcher in ipairs(package.loaders) do
         local loader = searcher(mod_name)
-        if type(loader) == 'function' then
+        if type(loader) == "function" then
             package.preload[mod_name] = loader
             package.loaded[mod_name] = loader()
             return true
