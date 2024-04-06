@@ -2,7 +2,7 @@ local constants = require("rocks-config.constants")
 
 local rocks_config = {}
 
----
+--- Creates plugin heuristics for a given plugin
 ---@param name string
 local function create_plugin_heuristics(name)
     name = name:gsub("%.", "-")
@@ -71,6 +71,10 @@ function rocks_config.setup(user_configuration)
                 end
             end
         end
+    end
+
+    if type(config.config.colorscheme or config.config.colourscheme) == "string" then
+        pcall(vim.cmd.colorscheme, config.config.colorscheme or config.config.colourscheme)
     end
 end
 
