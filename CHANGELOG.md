@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.3.0...v1.3.1) (2024-04-06)
+
+
+### Bug Fixes
+
+* use all `package.loaders` to search for configs ([#24](https://github.com/nvim-neorocks/rocks-config.nvim/issues/24)) ([bd0adcd](https://github.com/nvim-neorocks/rocks-config.nvim/commit/bd0adcd550b7ccc194bba5a31b4c72601226492c))
+
 ## [1.3.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.2.3...v1.3.0) (2024-04-06)
 
 
