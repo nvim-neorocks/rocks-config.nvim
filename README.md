@@ -138,18 +138,18 @@ for you.
 
 rocks.nvim makes use of Neovim's built-in [initialization sequence](https://neovim.io/doc/user/starting.html#initialization),
 and provides a hook that rocks-config.nvim uses to load configs
-*before* any plugin scripts are sourced[^1].
+*before* any plugin scripts are sourced[^4].
 
-[^1]: All plugins' lua APIs are available as soon as the snippet
+[^4]: All plugins' lua APIs are available as soon as the snippet
 from the rocks.nvim installer has been executed.
 
 If you need to source a plugin's scripts eagerly (for example,
 to load colorschemes), you can set the plugin's `opt = true` in
-rocks.toml, and then load it with `vim.cmd.Rocks({"packadd", "<rock-name>"})` [^2]
-or `require("rocks").packadd("<rock-name")`[^3].
+rocks.toml, and then load it with `vim.cmd.Rocks({"packadd", "<rock-name>"})` [^5]
+or `require("rocks").packadd("<rock-name")`[^6].
 
-[^2]: See `:h rocks.commands`
-[^3]: See `:h rocks.lua`
+[^5]: See `:h rocks.commands`
+[^6]: See `:h rocks.lua`
 
 ## :book: License
 
