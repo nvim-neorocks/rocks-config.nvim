@@ -76,6 +76,12 @@ function rocks_config.setup(user_configuration)
     if type(config.config.colorscheme or config.config.colourscheme) == "string" then
         pcall(vim.cmd.colorscheme, config.config.colorscheme or config.config.colourscheme)
     end
+
+    if type(config.config.options) == "table" then
+        for key, value in pairs(config.config.options) do
+            vim.opt[key] = value
+        end
+    end
 end
 
 return rocks_config
