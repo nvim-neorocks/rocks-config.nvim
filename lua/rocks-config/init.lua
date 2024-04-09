@@ -42,7 +42,7 @@ local function try_load_like_require(searcher, mod_name)
     local loader = searcher(mod_name)
 
     if type(loader) ~= "function" then
-       return nil
+        return nil
     end
 
     local module = loader()
