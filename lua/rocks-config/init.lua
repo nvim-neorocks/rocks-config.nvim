@@ -3,8 +3,8 @@ local constants = require("rocks-config.constants")
 local rocks_config = {}
 
 ---Deduplicates a table that is being used as an array of strings
----@param arr table
----@return table
+---@param arr string[]
+---@return string[]
 local function dedup(arr)
     local res = {}
     local hash = {}
@@ -21,7 +21,7 @@ end
 
 ---Creates plugin heuristics for a given plugin
 ---@param name string
----@return table
+---@return string[]
 local function create_plugin_heuristics(name)
     name = name:gsub("%.", "-")
 
