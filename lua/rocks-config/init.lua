@@ -46,6 +46,12 @@ function rocks_config.setup(user_configuration)
 
     config.config.plugins_dir = config.config.plugins_dir:gsub("[%.%/%\\]+$", "")
 
+    if type(config.config.options) == "table" then
+        for key, value in pairs(config.config.options) do
+            vim.opt[key] = value
+        end
+    end
+
     for name, data in pairs(user_configuration.plugins or {}) do
         local plugin_heuristics = create_plugin_heuristics(name)
 
@@ -75,12 +81,6 @@ function rocks_config.setup(user_configuration)
 
     if type(config.config.colorscheme or config.config.colourscheme) == "string" then
         pcall(vim.cmd.colorscheme, config.config.colorscheme or config.config.colourscheme)
-    end
-
-    if type(config.config.options) == "table" then
-        for key, value in pairs(config.config.options) do
-            vim.opt[key] = value
-        end
     end
 end
 
