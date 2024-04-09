@@ -94,7 +94,29 @@ function rocks_config.setup(user_configuration)
         end
     end
 
+    local exclude = {}
+
+    if type(config.plugins and config.plugins.bundles) == "table" then
+        for bundle_name, plugins in pairs(config.plugins.bundles) do
+            if type(plugins) == "table" then
+                local mod_name = table.concat({ config.config.plugins_dir, bundle_name }, ".")
+
+                if try_load_config(mod_name) then
+                    for _, plugin in ipairs(plugins) do
+                        exclude[plugin] = true
+                    end
+                else
+                    vim.notify(string.format("[rocks-config.nvim]: Bundle '%s' has no specified configuration file, falling back to loading plugins from the bundle individually...", bundle_name), vim.log.levels.WARN)
+                end
+            end
+        end
+    end
+
     for name, data in pairs(user_configuration.plugins or {}) do
+        if exclude[name] then
+            goto continue
+        end
+
         local plugin_heuristics = create_plugin_heuristics(name)
 
         local found_custom_configuration = false
@@ -123,6 +145,8 @@ function rocks_config.setup(user_configuration)
                 end
             end
         end
+
+        ::continue::
     end
 
     if type(config.config.colorscheme or config.config.colourscheme) == "string" then
