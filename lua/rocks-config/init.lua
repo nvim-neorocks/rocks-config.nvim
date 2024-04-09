@@ -2,17 +2,56 @@ local constants = require("rocks-config.constants")
 
 local rocks_config = {}
 
---- Creates plugin heuristics for a given plugin
+---Deduplicates a table that is being used as an array of strings
+---@param arr string[]
+---@return string[]
+local function dedup(arr)
+    local res = {}
+    local hash = {}
+
+    for _, v in ipairs(arr) do
+        if not hash[v] then
+            table.insert(res, v)
+            hash[v] = true
+        end
+    end
+
+    return res
+end
+
+---Creates plugin heuristics for a given plugin
 ---@param name string
+---@return string[]
 local function create_plugin_heuristics(name)
     name = name:gsub("%.", "-")
 
-    return {
+    return dedup({
         name,
         name:gsub("[%.%-]n?vim$", ""):gsub("n?vim%-", ""),
         name:gsub("%.", "-"),
         name .. "-nvim",
-    }
+    })
+end
+
+---Emulates Lua's require mechanism behaviour. Lua's `require` function
+---returns `true` if the module returns nothing (`nil`), so we do the same.
+---@param searcher function The module name
+---@param mod_name string The module name
+---@return any loaded
+local function try_load_like_require(searcher, mod_name)
+    local loader = searcher(mod_name)
+
+    if type(loader) ~= "function" then
+        return nil
+    end
+
+    local module = loader()
+
+    if module == nil then
+        return true
+    end
+
+    return module
 end
 
 ---Tries to load a module, without panicking if it is not found.
@@ -20,17 +59,20 @@ end
 ---@param mod_name string The module name
 ---@return boolean loaded
 local function try_load_config(mod_name)
-    if package.loaded[mod_name] then
+    -- Modules can indeed return `false` so we must check specifically
+    -- for `nil`.
+    if package.loaded[mod_name] ~= nil then
         return true
     end
+
     -- Loaders that search `package.preload` and `package.path`.
     -- We don't need to search the cpath or neovim's runtimepath,
     -- as the nvim `lua` directory is added to the `package.path`.
     for _, searcher in ipairs(package.loaders) do
-        local loader = searcher(mod_name)
-        if type(loader) == "function" then
-            package.preload[mod_name] = loader
-            package.loaded[mod_name] = loader()
+        local loaded = try_load_like_require(searcher, mod_name)
+
+        if loaded ~= nil then
+            package.loaded[mod_name] = loaded
             return true
         end
     end
@@ -61,6 +103,10 @@ function rocks_config.setup(user_configuration)
             local mod_name = table.concat({ config.config.plugins_dir, possible_match }, ".")
             local ok = try_load_config(mod_name)
             found_custom_configuration = found_custom_configuration or ok
+
+            if found_custom_configuration then
+                break
+            end
         end
 
         -- If there is no custom configuration defined by the user then attempt to autoinvoke the setup() function.
