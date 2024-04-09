@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.4.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.3.1...v1.4.0) (2024-04-09)
+
+
+### Features
+
+* add `options` table ([51dfc03](https://github.com/nvim-neorocks/rocks-config.nvim/commit/51dfc03b80e8f246c9d9c295cd7f74f7ec26de30))
+
+
+### Bug Fixes
+
+* avoid loading configs twice ([#30](https://github.com/nvim-neorocks/rocks-config.nvim/issues/30)) ([d787b88](https://github.com/nvim-neorocks/rocks-config.nvim/commit/d787b88facf1cbabb4b274319da386946dd795ac))
+* set options before setting plugin configurations ([024ad6b](https://github.com/nvim-neorocks/rocks-config.nvim/commit/024ad6bdaba3edc795c5bfbfc38233ea33015be6))
+
 ## [1.3.1](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.3.0...v1.3.1) (2024-04-06)
 
 
