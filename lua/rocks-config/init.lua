@@ -117,7 +117,7 @@ function rocks_config.setup(user_configuration)
                 if ok and type(maybe_module) == "table" and type(maybe_module.setup) == "function" then
                     if type(data.config) == "table" then
                         maybe_module.setup(data.config)
-                    elseif config.config.auto_setup or data.config == true then
+                    elseif (config.config.auto_setup or data.config == true) and data.config ~= false then
                         maybe_module.setup()
                     end
                 end
