@@ -95,7 +95,10 @@ local function check_for_duplicate(plugin_name, config_basename, mod_name)
 
     if duplicate ~= nil then
         vim.notify(
-            ("Duplicate configuration found for plugin '%s' named '%s.lua'. Skipping."):format(plugin_name, config_basename),
+            ("Duplicate configuration found for plugin '%s' named '%s.lua'. Skipping."):format(
+                plugin_name,
+                config_basename
+            ),
             vim.log.levels.WARN
         )
     end
