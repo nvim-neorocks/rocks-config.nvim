@@ -86,7 +86,8 @@ local function try_load_config(mod_name)
 end
 
 ---Checks if a plugin that already had a configuration loaded has
----a given duplicate candidate configuration, and warns the user.
+---a given duplicate candidate configuration, and registers the duplicate
+---for being checked later.
 ---@param plugin_name string The plugin that is being configured
 ---@param config_basename string The basename of the configuration module.
 ---@param mod_name string The configuration module name to check for
@@ -94,17 +95,13 @@ local function check_for_duplicate(plugin_name, config_basename, mod_name)
     local duplicate = try_get_loader_for_module(mod_name)
 
     if duplicate ~= nil then
-        vim.notify(
-            ("Duplicate configuration found for plugin '%s' named '%s.lua'. Skipping."):format(
-                plugin_name,
-                config_basename
-            ),
-            vim.log.levels.WARN
-        )
+        table.insert(rocks_config.duplicate_configs_found, { plugin_name, config_basename })
     end
 end
 
 function rocks_config.setup(user_configuration)
+    rocks_config.duplicate_configs_found = {}
+
     if not user_configuration or type(user_configuration) ~= "table" then
         return
     end
