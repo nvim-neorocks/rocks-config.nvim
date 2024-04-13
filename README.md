@@ -84,10 +84,6 @@ and load it if one is found.
 [^2]: For example, a config file for a plugin called `nvim-foo` could be named `foo.lua`.
 [^3]: For example, a config file for a plugin called `foo.bar` could be named `foo-bar.lua`.
 
-If more than one is found, the first one is loaded, and
-`rocks-config` will warn the user that a duplicate configuration
-was found and skipped.
-
 If you uninstall a plugin, you can leave its config (e.g. in case
 you would like to reinstall it later), and it will not cause any
 problems.

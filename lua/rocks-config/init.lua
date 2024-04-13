@@ -38,9 +38,6 @@ end
 ---@param mod_name string The module name to search for
 ---@return function | nil
 local function try_get_loader_for_module(mod_name)
-    -- Loaders that search `package.preload` and `package.path`.
-    -- We don't need to search the cpath or neovim's runtimepath,
-    -- as the nvim `lua` directory is added to the `package.path`.
     for _, searcher in ipairs(package.loaders) do
         local loader = searcher(mod_name)
 
@@ -55,7 +52,7 @@ end
 ---Emulates Lua's require mechanism behaviour. Lua's `require` function
 ---returns `true` if the module returns nothing (`nil`), so we do the same.
 ---@param loader function The loader function
----@return any loaded
+---@return unknown loaded
 local function load_like_require(loader)
     local module = loader()
 
@@ -91,13 +88,14 @@ end
 ---Checks if a plugin that already had a configuration loaded has
 ---a given duplicate candidate configuration, and warns the user.
 ---@param plugin_name string The plugin that is being configured
+---@param config_basename string The basename of the configuration module.
 ---@param mod_name string The configuration module name to check for
-local function check_for_duplicate(plugin_name, match_name, mod_name)
+local function check_for_duplicate(plugin_name, config_basename, mod_name)
     local duplicate = try_get_loader_for_module(mod_name)
 
     if duplicate ~= nil then
         vim.notify(
-            ("Duplicate configuration found for plugin '%s' named '%s.lua'. Skipping."):format(plugin_name, match_name),
+            ("Duplicate configuration found for plugin '%s' named '%s.lua'. Skipping."):format(plugin_name, config_basename),
             vim.log.levels.WARN
         )
     end
