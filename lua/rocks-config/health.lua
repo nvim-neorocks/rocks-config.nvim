@@ -13,7 +13,7 @@ local function check_for_duplicates()
     for _, dupe in ipairs(dupes) do
         local plugin_name, config_basename = unpack(dupe)
         vim.health.warn(
-            ("Duplicate configuration found for plugin '%s' named '%s.lua'. Skipping."):format(
+            ("Duplicate configuration found for plugin '%s' in file '%s.lua'. Skipping."):format(
                 plugin_name,
                 config_basename
             )
