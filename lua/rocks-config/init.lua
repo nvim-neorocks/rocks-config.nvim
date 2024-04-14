@@ -151,6 +151,13 @@ function rocks_config.setup(user_configuration)
     if type(config.config.colorscheme or config.config.colourscheme) == "string" then
         pcall(vim.cmd.colorscheme, config.config.colorscheme or config.config.colourscheme)
     end
+
+    if #rocks_config.duplicate_configs_found > 0 then
+        vim.notify(
+            "Issues found while loading plugin configs. Run :checkhealth rocks-config for more info.",
+            vim.log.levels.WARN
+        )
+    end
 end
 
 return rocks_config
