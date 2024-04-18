@@ -99,8 +99,39 @@ local function check_for_duplicate(plugin_name, config_basename, mod_name)
     end
 end
 
+---Load a config and register any errors that happened while trying to load it.
+---Returns false if the module was not found and true if it was, even if errors happened.
+---@param plugin_name string The plugin that is being configured
+---@param config_basename string The basename of the configuration module.
+---@param mod_name string The configuration module to load.
+---@return boolean
+local function load_config(plugin_name, config_basename, mod_name)
+    local ok, result = pcall(function()
+        return try_load_config(mod_name)
+    end)
+
+    if not ok then
+        -- Module was found but failed to load.
+        table.insert(rocks_config.failed_to_load, { plugin_name, config_basename, result })
+        return true
+    end
+
+    if type(result) ~= "boolean" then
+        error("try_load_config did not return boolean as expected.")
+    end
+
+    return result
+end
+
+---Check if any errors were registered during setup.
+---@return boolean
+local function errors_found()
+    return #rocks_config.duplicate_configs_found > 0 and #rocks_config.failed_to_load > 0
+end
+
 function rocks_config.setup(user_configuration)
     rocks_config.duplicate_configs_found = {}
+    rocks_config.failed_to_load = {}
 
     if not user_configuration or type(user_configuration) ~= "table" then
         return
@@ -127,7 +158,7 @@ function rocks_config.setup(user_configuration)
             if found_custom_configuration then
                 check_for_duplicate(name, possible_match, mod_name)
             else
-                local ok = try_load_config(mod_name)
+                local ok = load_config(name, possible_match, mod_name)
                 found_custom_configuration = found_custom_configuration or ok
             end
         end
@@ -152,7 +183,7 @@ function rocks_config.setup(user_configuration)
         pcall(vim.cmd.colorscheme, config.config.colorscheme or config.config.colourscheme)
     end
 
-    if #rocks_config.duplicate_configs_found > 0 then
+    if errors_found() then
         vim.notify(
             "Issues found while loading plugin configs. Run :checkhealth rocks-config for more info.",
             vim.log.levels.WARN
