@@ -55,7 +55,7 @@ auto_setup = false
 #### `plugins_dir`
 
 The subdirectory (relative to `nvim/lua`, default: `plugins`)
-to search for plugin configs. You can add a `lua/plugins/` directory 
+to search for plugin configs. You can add a `lua/plugins/` directory
 to your `nvim` config, with a lua script for each plugin.
 
 ```sh

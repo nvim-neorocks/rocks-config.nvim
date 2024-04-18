@@ -33,18 +33,27 @@ local function create_plugin_heuristics(name)
     })
 end
 
----Emulates Lua's require mechanism behaviour. Lua's `require` function
----returns `true` if the module returns nothing (`nil`), so we do the same.
----@param searcher function The module name
----@param mod_name string The module name
----@return any loaded
-local function try_load_like_require(searcher, mod_name)
-    local loader = searcher(mod_name)
+---Tries to get a loader function for a given module.
+---Returns nil if the module is not found.
+---@param mod_name string The module name to search for
+---@return function | nil
+local function try_get_loader_for_module(mod_name)
+    for _, searcher in ipairs(package.loaders) do
+        local loader = searcher(mod_name)
 
-    if type(loader) ~= "function" then
-        return nil
+        if type(loader) == "function" then
+            return loader
+        end
     end
 
+    return nil
+end
+
+---Emulates Lua's require mechanism behaviour. Lua's `require` function
+---returns `true` if the module returns nothing (`nil`), so we do the same.
+---@param loader function The loader function
+---@return unknown loaded
+local function load_like_require(loader)
     local module = loader()
 
     if module == nil then
@@ -65,21 +74,34 @@ local function try_load_config(mod_name)
         return true
     end
 
-    -- Loaders that search `package.preload` and `package.path`.
-    -- We don't need to search the cpath or neovim's runtimepath,
-    -- as the nvim `lua` directory is added to the `package.path`.
-    for _, searcher in ipairs(package.loaders) do
-        local loaded = try_load_like_require(searcher, mod_name)
+    local loader = try_get_loader_for_module(mod_name)
 
-        if loaded ~= nil then
-            package.loaded[mod_name] = loaded
-            return true
-        end
+    if loader == nil then
+        return false
     end
-    return false
+
+    package.loaded[mod_name] = load_like_require(loader)
+
+    return true
+end
+
+---Checks if a plugin that already had a configuration loaded has
+---a given duplicate candidate configuration, and registers the duplicate
+---for being checked later.
+---@param plugin_name string The plugin that is being configured
+---@param config_basename string The basename of the configuration module.
+---@param mod_name string The configuration module name to check for
+local function check_for_duplicate(plugin_name, config_basename, mod_name)
+    local duplicate = try_get_loader_for_module(mod_name)
+
+    if duplicate ~= nil then
+        table.insert(rocks_config.duplicate_configs_found, { plugin_name, config_basename })
+    end
 end
 
 function rocks_config.setup(user_configuration)
+    rocks_config.duplicate_configs_found = {}
+
     if not user_configuration or type(user_configuration) ~= "table" then
         return
     end
@@ -101,11 +123,12 @@ function rocks_config.setup(user_configuration)
 
         for _, possible_match in ipairs(plugin_heuristics) do
             local mod_name = table.concat({ config.config.plugins_dir, possible_match }, ".")
-            local ok = try_load_config(mod_name)
-            found_custom_configuration = found_custom_configuration or ok
 
             if found_custom_configuration then
-                break
+                check_for_duplicate(name, possible_match, mod_name)
+            else
+                local ok = try_load_config(mod_name)
+                found_custom_configuration = found_custom_configuration or ok
             end
         end
 
@@ -127,6 +150,13 @@ function rocks_config.setup(user_configuration)
 
     if type(config.config.colorscheme or config.config.colourscheme) == "string" then
         pcall(vim.cmd.colorscheme, config.config.colorscheme or config.config.colourscheme)
+    end
+
+    if #rocks_config.duplicate_configs_found > 0 then
+        vim.notify(
+            "Issues found while loading plugin configs. Run :checkhealth rocks-config for more info.",
+            vim.log.levels.WARN
+        )
     end
 end
 
