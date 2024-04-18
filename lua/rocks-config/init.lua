@@ -96,13 +96,18 @@ function rocks_config.setup(user_configuration)
 
     local exclude = {}
 
-    if type(config.plugins and config.plugins.bundles) == "table" then
-        for bundle_name, plugins in pairs(config.plugins.bundles) do
-            if type(plugins) == "table" then
-                local mod_name = table.concat({ config.config.plugins_dir, bundle_name }, ".")
+    if type(config.bundles) == "table" then
+        for bundle_name, bundle in pairs(config.bundles) do
+            if type(bundle) == "table" and type(bundle.items) == "table" then
+                if type(bundle.config) ~= "nil" and type(bundle.config) ~= "string" then
+                    vim.notify(string.format("[rocks-config.nvim]: Bundle '%s' has invalid `config` variable. Expected string pointing to a valid path, got %s instead...", bundle_name, type(bundle.config)), vim.log.levels.ERROR)
+                    bundle.config = nil
+                end
+
+                local mod_name = bundle.config ~= nil and bundle.config or table.concat({ config.config.plugins_dir, bundle_name }, ".")
 
                 if try_load_config(mod_name) then
-                    for _, plugin in ipairs(plugins) do
+                    for _, plugin in ipairs(bundle.items) do
                         exclude[plugin] = true
                     end
                 else
@@ -133,14 +138,18 @@ function rocks_config.setup(user_configuration)
 
         -- If there is no custom configuration defined by the user then attempt to autoinvoke the setup() function.
         if not found_custom_configuration and (config.config.auto_setup or data.config) then
-            for _, possible_match in ipairs(plugin_heuristics) do
-                local ok, maybe_module = pcall(require, possible_match)
+            if type(data.config) == "string" then
+                require(data.config)
+            else
+                for _, possible_match in ipairs(plugin_heuristics) do
+                    local ok, maybe_module = pcall(require, possible_match)
 
-                if ok and type(maybe_module) == "table" and type(maybe_module.setup) == "function" then
-                    if type(data.config) == "table" then
-                        maybe_module.setup(data.config)
-                    elseif (config.config.auto_setup or data.config == true) and data.config ~= false then
-                        maybe_module.setup()
+                    if ok and type(maybe_module) == "table" and type(maybe_module.setup) == "function" then
+                        if type(data.config) == "table" then
+                            maybe_module.setup(data.config)
+                        elseif (config.config.auto_setup or data.config == true) and data.config ~= false then
+                            maybe_module.setup()
+                        end
                     end
                 end
             end
