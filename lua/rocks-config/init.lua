@@ -117,7 +117,9 @@ local function load_config(plugin_name, config_basename, mod_name)
     end
 
     if type(result) ~= "boolean" then
-        error("try_load_config did not return boolean as expected.")
+        error(
+            "rocks-config.nvim: The impossible happened! Please report this bug: try_load_config did not return boolean as expected."
+        )
     end
 
     return result
@@ -126,7 +128,7 @@ end
 ---Check if any errors were registered during setup.
 ---@return boolean
 local function errors_found()
-    return #rocks_config.duplicate_configs_found > 0 and #rocks_config.failed_to_load > 0
+    return #rocks_config.duplicate_configs_found > 0 or #rocks_config.failed_to_load > 0
 end
 
 function rocks_config.setup(user_configuration)
