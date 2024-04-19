@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.5.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.4.0...v1.5.0) (2024-04-19)
+
+
+### Features
+
+* allow `config = false` in `rocks.toml` ([7a3f813](https://github.com/nvim-neorocks/rocks-config.nvim/commit/7a3f813da7913b0aa92615e5ec221c5faec9306b))
+* avoid crashing and log errors ([#34](https://github.com/nvim-neorocks/rocks-config.nvim/issues/34)) ([0f1183a](https://github.com/nvim-neorocks/rocks-config.nvim/commit/0f1183a510a255f64ed2c519476bf44c300d5bd1))
+* detect duplicate configs and warn user ([#33](https://github.com/nvim-neorocks/rocks-config.nvim/issues/33)) ([d66b808](https://github.com/nvim-neorocks/rocks-config.nvim/commit/d66b8080e356ede8af98affde8899d88ac8dda1f))
+
 ## [1.4.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.3.1...v1.4.0) (2024-04-09)
 
 
