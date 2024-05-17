@@ -154,21 +154,53 @@ function rocks_config.setup(user_configuration)
     if type(config.bundles) == "table" then
         for bundle_name, bundle in pairs(config.bundles) do
             if type(bundle) == "table" and type(bundle.items) == "table" then
+                local nonexistent_bundle_item = vim.iter(bundle.items):find(function(item)
+                    return user_configuration.plugins[item] == nil
+                end)
+
+                if nonexistent_bundle_item then
+                    vim.notify(
+                        string.format(
+                            "[rocks-config.nvim]: Bundle '%s' has invalid plugin '%s'. Did you make a typo, or is the plugin not installed?",
+                            bundle_name,
+                            nonexistent_bundle_item
+                        ),
+                        vim.log.levels.ERROR
+                    )
+                    goto continue
+                end
+
                 if type(bundle.config) ~= "nil" and type(bundle.config) ~= "string" then
-                    vim.notify(string.format("[rocks-config.nvim]: Bundle '%s' has invalid `config` variable. Expected string pointing to a valid path, got %s instead...", bundle_name, type(bundle.config)), vim.log.levels.ERROR)
+                    vim.notify(
+                        string.format(
+                            "[rocks-config.nvim]: Bundle '%s' has invalid `config` variable. Expected string pointing to a valid path, got %s instead...",
+                            bundle_name,
+                            type(bundle.config)
+                        ),
+                        vim.log.levels.ERROR
+                    )
                     bundle.config = nil
                 end
 
-                local mod_name = bundle.config ~= nil and bundle.config or table.concat({ config.config.plugins_dir, bundle_name }, ".")
+                local mod_name = bundle.config ~= nil and bundle.config
+                    or table.concat({ config.config.plugins_dir, bundle_name }, ".")
 
                 if try_load_config(mod_name) then
                     for _, plugin in ipairs(bundle.items) do
                         exclude[plugin] = true
                     end
                 else
-                    vim.notify(string.format("[rocks-config.nvim]: Bundle '%s' has no specified configuration file, falling back to loading plugins from the bundle individually...", bundle_name), vim.log.levels.WARN)
+                    vim.notify(
+                        string.format(
+                            "[rocks-config.nvim]: Bundle '%s' has no specified configuration file, falling back to loading plugins from the bundle individually...",
+                            bundle_name
+                        ),
+                        vim.log.levels.WARN
+                    )
                 end
             end
+
+            ::continue::
         end
     end
 
