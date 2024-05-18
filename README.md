@@ -116,6 +116,13 @@ require('lualine').setup {
 options = { icons_enabled = true, theme = "auto" }
 ```
 
+The `config` field can also take on the form of a string pointing to a Lua module (if you would
+like to execute a one-off script in a different location to the global `plugins_dir` option):
+```toml
+# rocks.toml
+[plugins.lualine]
+config = "plugins.statusline" # Will execute `.config/nvim/lua/plugins/statusline.lua`
+```
 #### `auto_setup`
 
 Some plugins that don't work without a `setup` call,
@@ -150,6 +157,49 @@ or `require("rocks").packadd("<rock-name")`[^6].
 
 [^5]: See `:h rocks.commands`
 [^6]: See `:h rocks.lua`
+
+## Plugin Bundles
+
+Apart from configuration on a per-plugin basis, it's also possible to create collections of plugins
+(called bundles) and configure them all in one go.
+
+Below is an example that bundles LSP-related plugins together:
+```toml
+[plugins]
+"neodev.nvim"= "scm"
+nvim-lspconfig = { version = "0.1.7" } 
+
+[plugins.nvim-cmp]
+git = "hrsh7th/nvim-cmp" # Use the git version of nvim-cmp for the best experience.
+
+[bundles.lsp] # Create a bundle called `lsp`
+items = [
+    "neodev.nvim",
+    "nvim-lspconfig",
+    "nvim-cmp"
+]
+```
+
+Now, instead of invoking each individual configuration file for each plugin separately,
+`rocks-config.nvim` will instead look for a `lua/plugins/lsp.lua` file which it will execute.
+You can then place your setup code for *all three* plugins in the same file.
+
+#### `config`
+
+Similarly to regular plugins, a `config` field can be applied to a bundle. This `config`
+field can only be a string pointing to an alternative Lua module to execute. Example:
+```toml
+[bundles.lsp] # Create a bundle called `lsp`
+items = [
+    "neodev.nvim",
+    "nvim-lspconfig",
+    "nvim-cmp"
+]
+config = "bundles.language_support"
+```
+
+Instead of looking inside `lua/plugins/lsp.lua`, `rocks-config.nvim` will now search for
+a file in `lua/bundles/language_support.lua`.
 
 ## :book: License
 
