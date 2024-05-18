@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.6.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.5.0...v1.6.0) (2024-05-18)
+
+
+### Features
+
+* add plugin bundles ([5a35dd2](https://github.com/nvim-neorocks/rocks-config.nvim/commit/5a35dd20a261a1fae0879cfcc624bf2122ec3335))
+
+
+### Bug Fixes
+
+* put bundles under separate namespace, allow `config` to also take a string, make bundles nested tables instead of a list ([1ec13ab](https://github.com/nvim-neorocks/rocks-config.nvim/commit/1ec13ab2831343993387f9b1d0a224d0b508b5f0))
+* show error when a bundle has an invalid plugin ([ec975bf](https://github.com/nvim-neorocks/rocks-config.nvim/commit/ec975bf19499830cdb1bf0a7a826dfe5788acd45))
+
 ## [1.5.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.4.0...v1.5.0) (2024-04-19)
 
 
