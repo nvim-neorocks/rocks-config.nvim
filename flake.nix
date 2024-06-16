@@ -1,5 +1,5 @@
 {
-  description = "devShell for Neovim Lua plugins";
+  description = "Allow rocks.nvim to help configure your plugins";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
