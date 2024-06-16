@@ -7,6 +7,10 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     neorocks.url = "github:nvim-neorocks/neorocks";
     gen-luarc.url = "github:mrcjkb/nix-gen-luarc-json";
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -16,8 +20,13 @@
     flake-parts,
     neorocks,
     gen-luarc,
+    git-hooks,
     ...
-  }:
+  }: let
+    test-overlay = import ./nix/test-overlay.nix {
+      inherit self;
+    };
+  in
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = [
         "x86_64-linux"
@@ -38,6 +47,7 @@
             neorocks.overlays.default
             gen-luarc.overlays.default
             rocks-nvim-input.overlays.default
+            test-overlay
           ];
         };
         luarc = pkgs.mk-luarc {
@@ -48,19 +58,54 @@
             nvim-nio
           ];
         };
+        mk-type-check = luarc:
+          git-hooks.lib.${system}.run {
+            src = self;
+            hooks = {
+              lua-ls = {
+                enable = true;
+                settings.configuration = luarc;
+              };
+            };
+          };
+
+        type-check-nightly = mk-type-check luarc;
+        pre-commit-check = git-hooks.lib.${system}.run {
+          src = self;
+          hooks = {
+            alejandra.enable = true;
+            stylua.enable = true;
+            luacheck.enable = true;
+            editorconfig-checker.enable = true;
+          };
+        };
       in {
-        devShells.default = pkgs.mkShell {
-          name = "lua devShell";
+        devShells.default = pkgs.integration-nightly.overrideAttrs (oa: {
+          name = "rocks-dev.nvim devShell";
           shellHook = ''
+            ${pre-commit-check.shellHook}
             ln -fs ${pkgs.luarc-to-json luarc} .luarc.json
           '';
-          buildInputs = with pkgs; [
-            lua-language-server
-            stylua
-            lua51Packages.luacheck
-            lua5_1
-            luarocks
-          ];
+          buildInputs =
+            self.checks.${system}.pre-commit-check.enabledPackages
+            ++ (with pkgs; [
+              busted-nightly
+              lua-language-server
+            ])
+            ++ oa.buildInputs;
+          doCheck = false;
+        });
+
+        checks = {
+          inherit
+            pre-commit-check
+            type-check-nightly
+            ;
+          inherit
+            (pkgs)
+            integration-stable
+            integration-nightly
+            ;
         };
       };
     };
