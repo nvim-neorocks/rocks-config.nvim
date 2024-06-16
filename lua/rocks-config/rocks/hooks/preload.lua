@@ -9,14 +9,9 @@ plugins_dir = "plugins/"
 ```
 --]]
 
-if vim.g.did_load_rocks_config_nvim then
+if vim.g.rocks_config_nvim_loaded then
     return
 end
+vim.g.rocks_config_nvim_loaded = true
 
-local api = require("rocks.api")
-
-local user_configuration = api.get_rocks_toml()
-
-require("rocks-config").setup(user_configuration)
-
-vim.g.did_load_rocks_config_nvim = true
+require("rocks-config.internal").setup()
