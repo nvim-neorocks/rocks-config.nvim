@@ -153,7 +153,7 @@ function rocks_config.configure(rock, config)
         ---@type table<rock_name, RockSpec>
         local all_plugins = vim.tbl_deep_extend("keep", {}, config.plugins or {}, config.rocks or {})
         if not all_plugins[rock] then
-            vim.notify(("rocks-config: Plugin %s not found in rocks.toml"):format(rock), vim.log.levels.ERROR)
+            vim.notify(("[rocks-config.nvim]: Plugin %s not found in rocks.toml"):format(rock), vim.log.levels.ERROR)
             return
         end
         rock = all_plugins[rock]

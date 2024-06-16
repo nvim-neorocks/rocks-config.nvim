@@ -19,3 +19,7 @@ test_dependencies = {
 source = {
     url = "git://github.com/nvim-neorocks/" .. package,
 }
+
+build = {
+    type = "builtin",
+}

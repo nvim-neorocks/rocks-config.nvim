@@ -23,6 +23,9 @@
     git-hooks,
     ...
   }: let
+    plugin-overlay = import ./nix/plugin-overlay.nix {
+      inherit self;
+    };
     test-overlay = import ./nix/test-overlay.nix {
       inherit self;
     };
@@ -47,6 +50,7 @@
             neorocks.overlays.default
             gen-luarc.overlays.default
             rocks-nvim-input.overlays.default
+            plugin-overlay
             test-overlay
           ];
         };
@@ -107,6 +111,9 @@
             integration-nightly
             ;
         };
+      };
+      flake = {
+        overlays.default = plugin-overlay;
       };
     };
 }

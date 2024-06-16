@@ -1,7 +1,4 @@
-{
-  name,
-  self,
-}: final: prev: let
+{self}: final: prev: let
   luaPackage-override = luaself: luaprev: {
     rocks-config-nvim = luaself.callPackage ({
       luaOlder,
@@ -10,7 +7,7 @@
       rocks-nvim,
     }:
       buildLuarocksPackage {
-        pname = name;
+        pname = "rocks-config.nvim";
         version = "scm-1";
         knownRockspec = "${self}/rocks-config.nvim-scm-1.rockspec";
         src = self;
@@ -34,7 +31,7 @@ in {
     prev.vimPlugins
     // {
       rocks-config-nvim = final.neovimUtils.buildNeovimPlugin {
-        pname = name;
+        pname = "rocks-config.nvim";
         version = "dev";
         src = self;
       };
