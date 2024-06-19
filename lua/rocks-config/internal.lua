@@ -158,9 +158,19 @@ function rocks_config.configure(rock, config)
         end
         rock = all_plugins[rock]
     end
+    if rock.setup == false and rock.config then
+        vim.notify(
+            string.format(
+                "[rocks-config.nvim]: Plugin %s has a config provided while setup is disabled, skipping setup",
+                rock.name
+            ),
+            vim.log.levels.WARN
+        )
+        return
+    end
     ---@cast rock RockSpec
     local name = rock.name
-    if _configured_rocks[name] then
+    if _configured_rocks[name] or rock.setup == false then
         return
     end
     _configured_rocks[rock.name] = true
@@ -181,9 +191,9 @@ function rocks_config.configure(rock, config)
     end
 
     -- If there is no custom configuration defined by the user then attempt to autoinvoke the setup() function.
-    if not found_custom_configuration and (config.config.auto_setup or rock.config) then
-        if type(rock.config) == "string" then
-            require(rock.config)
+    if not found_custom_configuration and (config.config.auto_setup or rock.config or rock.setup) then
+        if type(rock.setup) == "string" then
+            require(rock.setup)
         else
             for _, possible_match in ipairs(plugin_heuristics) do
                 local ok, maybe_module = pcall(require, possible_match)
@@ -191,7 +201,7 @@ function rocks_config.configure(rock, config)
                 if ok and type(maybe_module) == "table" and type(maybe_module.setup) == "function" then
                     if type(rock.config) == "table" then
                         maybe_module.setup(rock.config)
-                    elseif (config.config.auto_setup or rock.config == true) and rock.config ~= false then
+                    elseif config.config.auto_setup or rock.setup == true then
                         maybe_module.setup()
                     end
                 end
@@ -233,19 +243,19 @@ function rocks_config.setup()
                     goto continue
                 end
 
-                if type(bundle.config) ~= "nil" and type(bundle.config) ~= "string" then
+                if type(bundle.setup) ~= "nil" and type(bundle.setup) ~= "string" then
                     vim.notify(
                         string.format(
-                            "[rocks-config.nvim]: Bundle '%s' has invalid `config` variable. Expected string pointing to a valid path, got %s instead...",
+                            "[rocks-config.nvim]: Bundle '%s' has invalid `setup` variable. Expected string pointing to a valid path, got %s instead...",
                             bundle_name,
-                            type(bundle.config)
+                            type(bundle.setup)
                         ),
                         vim.log.levels.ERROR
                     )
-                    bundle.config = nil
+                    bundle.setup = nil
                 end
 
-                local mod_name = bundle.config ~= nil and bundle.config
+                local mod_name = bundle.setup ~= nil and bundle.setup
                     or table.concat({ config.config.plugins_dir, bundle_name }, ".")
 
                 if try_load_config(mod_name) then
@@ -255,7 +265,7 @@ function rocks_config.setup()
                 else
                     vim.notify(
                         string.format(
-                            "[rocks-config.nvim]: Bundle '%s' has no specified configuration file, falling back to loading plugins from the bundle individually...",
+                            "[rocks-config.nvim]: Bundle '%s' has no specified setup file, falling back to loading plugins from the bundle individually...",
                             bundle_name
                         ),
                         vim.log.levels.WARN
