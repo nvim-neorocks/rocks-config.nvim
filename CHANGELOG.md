@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.6.0...v2.0.0) (2024-06-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* support lazy-loading plugin configs
+
+### Features
+
+* support lazy-loading plugin configs ([e872069](https://github.com/nvim-neorocks/rocks-config.nvim/commit/e872069d5af89a25ec4dc44a185c4dcc6b16c17d))
+
 ## [1.6.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.5.0...v1.6.0) (2024-05-18)
 
 
