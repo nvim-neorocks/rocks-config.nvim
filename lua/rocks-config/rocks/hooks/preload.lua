@@ -9,9 +9,12 @@ plugins_dir = "plugins/"
 ```
 --]]
 
-if vim.g.rocks_config_nvim_loaded then
-    return
-end
 vim.g.rocks_config_nvim_loaded = true
 
-require("rocks-config.internal").setup()
+---@type rocks.hooks.Action
+return {
+    type = "Action",
+    hook = function()
+        require("rocks-config.internal").setup()
+    end,
+}
