@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.0.1...v2.1.0) (2024-06-25)
+
+
+### Features
+
+* support new rocks.nvim preload hook API ([#44](https://github.com/nvim-neorocks/rocks-config.nvim/issues/44)) ([5bc99e9](https://github.com/nvim-neorocks/rocks-config.nvim/commit/5bc99e924ecf41c1054e3661f29216d27642e471))
+
 ## [2.0.1](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.0.0...v2.0.1) (2024-06-25)
 
 
