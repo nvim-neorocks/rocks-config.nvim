@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.0.0...v2.0.1) (2024-06-25)
+
+
+### Bug Fixes
+
+* **health:** broken health check ([#46](https://github.com/nvim-neorocks/rocks-config.nvim/issues/46)) ([95135fa](https://github.com/nvim-neorocks/rocks-config.nvim/commit/95135faa11e47718e4423b73424cf6afaff77c40))
+
 ## [2.0.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v1.6.0...v2.0.0) (2024-06-19)
 
 
