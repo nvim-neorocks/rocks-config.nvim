@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.1.0...v2.1.1) (2024-06-25)
+
+
+### Bug Fixes
+
+* attempt to index `nil` if `[rocks]` is not set. ([#50](https://github.com/nvim-neorocks/rocks-config.nvim/issues/50)) ([c4527e0](https://github.com/nvim-neorocks/rocks-config.nvim/commit/c4527e021a9b95ae2fed7b93bed36bb5c8e6b81c)), closes [#49](https://github.com/nvim-neorocks/rocks-config.nvim/issues/49)
+
 ## [2.1.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.0.1...v2.1.0) (2024-06-25)
 
 
