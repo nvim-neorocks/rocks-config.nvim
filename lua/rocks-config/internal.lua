@@ -1,6 +1,9 @@
 local constants = require("rocks-config.constants")
 
-local rocks_config = {}
+local rocks_config = {
+    duplicate_configs_found = {},
+    failed_to_load = {},
+}
 
 ---@type table<rock_name, boolean>
 local _configured_rocks = {}
@@ -201,9 +204,6 @@ function rocks_config.configure(rock, config)
 end
 
 function rocks_config.setup()
-    rocks_config.duplicate_configs_found = {}
-    rocks_config.failed_to_load = {}
-
     local config = get_config()
 
     ---@diagnostic disable-next-line: inject-field
