@@ -218,7 +218,7 @@ function rocks_config.setup()
         for bundle_name, bundle in pairs(config.bundles) do
             if type(bundle) == "table" and type(bundle.items) == "table" then
                 local nonexistent_bundle_item = vim.iter(bundle.items):find(function(item)
-                    return config.plugins[item] == nil and config.rocks[item] == nil
+                    return (config.plugins or {})[item] == nil and (config.rocks or {})[item] == nil
                 end)
 
                 if nonexistent_bundle_item then
