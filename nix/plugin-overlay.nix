@@ -1,10 +1,13 @@
-{self}: final: prev: let
+{
+  self,
+  inputs,
+}: final: prev: let
+  rocks-nvim = inputs.rocks-nvim-input.packages.${final.system}.rocks-nvim;
   luaPackage-override = luaself: luaprev: {
     rocks-config-nvim = luaself.callPackage ({
       luaOlder,
       buildLuarocksPackage,
       lua,
-      rocks-nvim,
     }:
       buildLuarocksPackage {
         pname = "rocks-config.nvim";
@@ -17,14 +20,14 @@
         ];
       }) {};
   };
-  lua5_1 = prev.lua5_1.override {
+  luajit = prev.luajit.override {
     packageOverrides = luaPackage-override;
   };
-  lua51Packages = final.lua5_1.pkgs;
+  luajitPackages = final.luajit.pkgs;
 in {
   inherit
-    lua5_1
-    lua51Packages
+    luajit
+    luajitPackages
     ;
 
   vimPlugins =

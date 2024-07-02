@@ -24,7 +24,7 @@
     ...
   }: let
     plugin-overlay = import ./nix/plugin-overlay.nix {
-      inherit self;
+      inherit self inputs;
     };
     test-overlay = import ./nix/test-overlay.nix {
       inherit self inputs;
@@ -99,6 +99,11 @@
             ++ oa.buildInputs;
           doCheck = false;
         });
+
+        packages = rec {
+          default = rocks-config-nvim;
+          inherit (pkgs.luajitPackages) rocks-config-nvim;
+        };
 
         checks = {
           inherit
