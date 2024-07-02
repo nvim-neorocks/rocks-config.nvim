@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.1.1...v2.1.2) (2024-07-02)
+
+
+### Bug Fixes
+
+* **deps:** bump rocks.nvim minimum version constraint ([#54](https://github.com/nvim-neorocks/rocks-config.nvim/issues/54)) ([16f5283](https://github.com/nvim-neorocks/rocks-config.nvim/commit/16f52838bdf0e43a37ae73eae2be573c954ff925))
+
 ## [2.1.1](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.1.0...v2.1.1) (2024-06-25)
 
 
