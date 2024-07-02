@@ -1,4 +1,7 @@
-{self}: final: prev: let
+{
+  self,
+  inputs,
+}: final: prev: let
   mkNeorocksTest = name: nvim:
     with final;
       neorocksTest {
@@ -6,10 +9,9 @@
         pname = "rocks-config.nvim";
         src = self;
         neovim = nvim;
-        luaPackages = ps:
-          with ps; [
-            rocks-nvim
-          ];
+        luaPackages = _: [
+          inputs.rocks-nvim-input.packages.${final.system}.rocks-nvim
+        ];
 
         extraPackages = [
           wget

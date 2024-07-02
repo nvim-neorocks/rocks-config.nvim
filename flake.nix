@@ -27,7 +27,7 @@
       inherit self;
     };
     test-overlay = import ./nix/test-overlay.nix {
-      inherit self;
+      inherit self inputs;
     };
   in
     flake-parts.lib.mkFlake {inherit inputs;} {
