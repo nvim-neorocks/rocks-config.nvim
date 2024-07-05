@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.3](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.1.2...v2.1.3) (2024-07-05)
+
+
+### Bug Fixes
+
+* allow extensions like rocks-lazy to hook into loading ([#56](https://github.com/nvim-neorocks/rocks-config.nvim/issues/56)) ([778c6a7](https://github.com/nvim-neorocks/rocks-config.nvim/commit/778c6a7b64492ca9905066bfa1aba420d70980da))
+
 ## [2.1.2](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.1.1...v2.1.2) (2024-07-02)
 
 
