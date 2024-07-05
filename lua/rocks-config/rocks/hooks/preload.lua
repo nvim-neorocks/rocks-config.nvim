@@ -14,7 +14,7 @@ vim.g.rocks_config_nvim_loaded = true
 ---@type rocks.hooks.Action
 return {
     type = "Action",
-    hook = function()
-        require("rocks-config.internal").setup()
+    hook = function(...)
+        require("rocks-config.internal").setup(...)
     end,
 }
