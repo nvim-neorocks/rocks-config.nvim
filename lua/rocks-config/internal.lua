@@ -1,4 +1,5 @@
 local constants = require("rocks-config.constants")
+local api = require("rocks.api")
 
 local rocks_config = {
     duplicate_configs_found = {},
@@ -143,7 +144,6 @@ end
 
 ---@return RocksConfigToml
 local function get_config()
-    local api = require("rocks.api")
     local rocks_toml = api.get_rocks_toml()
     return vim.tbl_deep_extend("force", {}, constants.DEFAULT_CONFIG, rocks_toml or {})
 end
@@ -153,8 +153,7 @@ end
 function rocks_config.configure(rock, config)
     config = config or get_config()
     if type(rock) == "string" then
-        ---@type table<rock_name, RockSpec>
-        local all_plugins = vim.tbl_deep_extend("keep", {}, config.plugins or {}, config.rocks or {})
+        local all_plugins = api.get_user_rocks()
         if not all_plugins[rock] then
             vim.notify(("[rocks-config.nvim]: Plugin %s not found in rocks.toml"):format(rock), vim.log.levels.ERROR)
             return
@@ -203,7 +202,8 @@ function rocks_config.configure(rock, config)
     end
 end
 
-function rocks_config.setup()
+---@param all_plugins? table<rock_name, RockSpec>
+function rocks_config.setup(all_plugins)
     local config = get_config()
 
     ---@diagnostic disable-next-line: inject-field
@@ -267,8 +267,7 @@ function rocks_config.setup()
         end
     end
 
-    ---@type table<rock_name, RockSpec>
-    local all_plugins = vim.tbl_deep_extend("keep", {}, config.plugins or {}, config.rocks or {})
+    all_plugins = all_plugins or api.get_user_rocks()
     for _, rock_spec in pairs(all_plugins) do
         if not rock_spec.opt or config.config.load_opt_plugins then
             rocks_config.configure(rock_spec, config)
