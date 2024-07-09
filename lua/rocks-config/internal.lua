@@ -12,6 +12,7 @@ local _configured_rocks = {}
 ---@class RocksConfigToml: RocksConfigConfig
 ---@field rocks? table<string, RockSpec[]>
 ---@field plugins? table<string, RockSpec[]>
+---@field bundles? table<string, rocks-config.Bundle>
 
 ---Deduplicates a table that is being used as an array of strings
 ---@param arr string[]
@@ -51,21 +52,23 @@ end
 local function try_get_loader_for_module(mod_name)
     for _, searcher in ipairs(package.loaders) do
         local loader = searcher(mod_name)
-
         if type(loader) == "function" then
             return loader
         end
     end
-
-    return nil
 end
 
 ---Emulates Lua's require mechanism behaviour. Lua's `require` function
 ---returns `true` if the module returns nothing (`nil`), so we do the same.
+---returns `nil` and the error message if the module fails to load.
 ---@param loader function The loader function
----@return unknown loaded
-local function load_like_require(loader)
-    local module = loader()
+---@return unknown | nil loaded
+---@return string | nil err
+local function try_load_like_require(loader)
+    local ok, module = pcall(loader)
+    if not ok then
+        return nil, module
+    end
 
     if module == nil then
         return true
@@ -75,9 +78,10 @@ local function load_like_require(loader)
 end
 
 ---Tries to load a module, without panicking if it is not found.
----Will panic if the module is found and loading it panics.
+---Returns `nil` and an error message if the module is found and loading it panics.
 ---@param mod_name string The module name
----@return boolean loaded
+---@return boolean | nil loaded
+---@return string | nil err
 local function try_load_config(mod_name)
     -- Modules can indeed return `false` so we must check specifically
     -- for `nil`.
@@ -91,7 +95,11 @@ local function try_load_config(mod_name)
         return false
     end
 
-    package.loaded[mod_name] = load_like_require(loader)
+    local mod, err = try_load_like_require(loader)
+    if mod == nil then
+        return nil, err
+    end
+    package.loaded[mod_name] = mod
 
     return true
 end
@@ -117,13 +125,11 @@ end
 ---@param mod_name string The configuration module to load.
 ---@return boolean
 local function load_config(plugin_name, config_basename, mod_name)
-    local ok, result = pcall(function()
-        return try_load_config(mod_name)
-    end)
+    local result, err = try_load_config(mod_name)
 
-    if not ok then
+    if result == nil and type(err) == "string" then
         -- Module was found but failed to load.
-        table.insert(rocks_config.failed_to_load, { plugin_name, config_basename, result })
+        table.insert(rocks_config.failed_to_load, { plugin_name, config_basename, err })
         return true
     end
 
@@ -202,6 +208,10 @@ function rocks_config.configure(rock, config)
     end
 end
 
+---@class rocks-config.Bundle
+---@field items? string[]
+---@field config? string
+
 ---@param all_plugins? table<rock_name, RockSpec>
 function rocks_config.setup(all_plugins)
     local config = get_config()
@@ -248,14 +258,30 @@ function rocks_config.setup(all_plugins)
                 local mod_name = bundle.config ~= nil and bundle.config
                     or table.concat({ config.config.plugins_dir, bundle_name }, ".")
 
-                if try_load_config(mod_name) then
+                local result, err = try_load_config(mod_name)
+                if result then
                     for _, plugin in ipairs(bundle.items) do
                         _configured_rocks[plugin] = true
                     end
+                elseif result == nil and type(err) == "string" then
+                    vim.notify(
+                        string.format(
+                            [[
+[rocks-config.nvim]: Bundle '%s' failed to load ('checkhealth rocks-config' for details).
+Falling back to loading plugins from the bundle individually...
+]],
+                            bundle_name
+                        ),
+                        vim.log.levels.WARN
+                    )
+                    table.insert(rocks_config.failed_to_load, { bundle_name, vim.inspect(bundle.items), err })
                 else
                     vim.notify(
                         string.format(
-                            "[rocks-config.nvim]: Bundle '%s' has no specified configuration file, falling back to loading plugins from the bundle individually...",
+                            [[
+[rocks-config.nvim]: Bundle '%s' has no specified configuration file.
+Falling back to loading plugins from the bundle individually...
+]],
                             bundle_name
                         ),
                         vim.log.levels.WARN
