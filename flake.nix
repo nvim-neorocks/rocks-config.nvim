@@ -7,6 +7,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     neorocks.url = "github:nvim-neorocks/neorocks";
     gen-luarc.url = "github:mrcjkb/nix-gen-luarc-json";
+    cats-doc.url = "github:mrcjkb/cats-doc";
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
