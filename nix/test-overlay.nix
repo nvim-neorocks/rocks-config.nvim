@@ -27,4 +27,14 @@
 in {
   integration-stable = mkNeorocksTest "integration-stable" final.neovim;
   integration-nightly = mkNeorocksTest "integration-nightly" final.neovim-nightly;
+  docgen = final.writeShellApplication {
+    name = "docgen";
+    runtimeInputs = [
+      inputs.cats-doc.packages.${final.system}.default
+    ];
+    text = ''
+      mkdir -p doc
+      lemmy-help lua/rocks-config/init.lua > doc/rocks-config.txt
+    '';
+  };
 }

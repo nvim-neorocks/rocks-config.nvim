@@ -7,6 +7,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     neorocks.url = "github:nvim-neorocks/neorocks";
     gen-luarc.url = "github:mrcjkb/nix-gen-luarc-json";
+    cats-doc.url = "github:mrcjkb/cats-doc";
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -80,6 +81,13 @@
             stylua.enable = true;
             luacheck.enable = true;
             editorconfig-checker.enable = true;
+            docgen = {
+              enable = true;
+              name = "docgen";
+              entry = "${pkgs.docgen}/bin/docgen";
+              files = "\\.(lua)$";
+              pass_filenames = false;
+            };
           };
         };
       in {
@@ -93,6 +101,7 @@
             self.checks.${system}.pre-commit-check.enabledPackages
             ++ (with pkgs; [
               lua-language-server
+              docgen
             ])
             ++ oa.buildInputs;
           doCheck = false;
