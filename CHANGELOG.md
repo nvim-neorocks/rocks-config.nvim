@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.4](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.1.3...v2.1.4) (2024-07-11)
+
+
+### Bug Fixes
+
+* **bundles:** handle load failures gracefully ([#58](https://github.com/nvim-neorocks/rocks-config.nvim/issues/58)) ([a28b018](https://github.com/nvim-neorocks/rocks-config.nvim/commit/a28b01875f33feef5bb6debb1fcda4509313a1b7))
+
 ## [2.1.3](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.1.2...v2.1.3) (2024-07-05)
 
 
