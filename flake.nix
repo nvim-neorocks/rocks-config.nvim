@@ -56,7 +56,6 @@
         };
         luarc = pkgs.mk-luarc {
           nvim = pkgs.neovim-nightly;
-          neodev-types = "nightly";
           plugins = with pkgs.lua51Packages; [
             rocks-nvim
             nvim-nio
@@ -93,7 +92,6 @@
           buildInputs =
             self.checks.${system}.pre-commit-check.enabledPackages
             ++ (with pkgs; [
-              busted-nightly
               lua-language-server
             ])
             ++ oa.buildInputs;
