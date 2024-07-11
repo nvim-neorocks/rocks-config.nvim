@@ -15,7 +15,7 @@ local function check_for_load_errors()
     for _, dupe in ipairs(errors) do
         local plugin_name, config_basename, error = unpack(dupe)
         vim.health.error(
-            ("Error while loading config '%s.lua' for plugin '%s'."):format(config_basename, plugin_name),
+            ("Error while loading config '%s.lua' for '%s'."):format(config_basename, plugin_name),
             { ("Error was: %s"):format(error) }
         )
     end
