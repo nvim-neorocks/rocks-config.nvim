@@ -126,19 +126,16 @@ end
 ---@return boolean
 local function load_config(plugin_name, config_basename, mod_name)
     local result, err = try_load_config(mod_name)
-
     if result == nil and type(err) == "string" then
         -- Module was found but failed to load.
         table.insert(rocks_config.failed_to_load, { plugin_name, config_basename, err })
         return true
     end
-
     if type(result) ~= "boolean" then
         error(
             "rocks-config.nvim: The impossible happened! Please report this bug: try_load_config did not return boolean as expected."
         )
     end
-
     return result
 end
 
