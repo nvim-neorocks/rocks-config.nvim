@@ -209,7 +209,9 @@ function rocks_config.configure(rock, config)
     -- then check for a rock config or attempt to auto-invoke the setup() function.
     if not found_custom_configuration and (config.config.auto_setup or rock.config) then
         if type(rock.config) == "string" then
-            require(rock.config)
+            xpcall(require, function(err)
+                table.insert(rocks_config.failed_to_load, { rock.name, rock.config, err })
+            end, rock.config)
         else
             auto_setup(plugin_heuristics, config, rock)
         end
