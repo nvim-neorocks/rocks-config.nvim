@@ -143,6 +143,9 @@ for you.
 > it will be invoked with the call to `require`,
 > potentially resulting in more eager initialization than necessary.
 
+You can also enable/disable `auto_setup` for individual plugins
+by setting `config = true` or `config = false`, respectively.
+
 ### Initialization order
 
 rocks.nvim makes use of Neovim's built-in [initialization sequence](https://neovim.io/doc/user/starting.html#initialization),
