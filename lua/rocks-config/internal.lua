@@ -171,19 +171,20 @@ local function get_config()
     return vim.tbl_deep_extend("force", {}, constants.DEFAULT_CONFIG, rocks_toml or {})
 end
 
----@param rock rock_name | RockSpec The rock to configure
+---@param rock rock_name | RocksConfigRockSpec The rock to configure
 ---@param config? RocksConfigConfig
 function rocks_config.configure(rock, config)
     config = config or get_config()
     if type(rock) == "string" then
         local all_plugins = api.get_user_rocks()
+        ---@cast all_plugins table<string, RocksConfigRockSpec>
         if not all_plugins[rock] then
             vim.notify(("[rocks-config.nvim]: Plugin %s not found in rocks.toml"):format(rock), vim.log.levels.ERROR)
             return
         end
         rock = all_plugins[rock]
     end
-    ---@cast rock RockSpec
+    ---@cast rock RocksConfigRockSpec
     local name = rock.name
     if _configured_rocks[name] then
         return
@@ -207,12 +208,12 @@ function rocks_config.configure(rock, config)
 
     -- If there is no custom configuration defined by the user
     -- then check for a rock config or attempt to auto-invoke the setup() function.
-    if not found_custom_configuration and (config.config.auto_setup or rock.config) then
+    if not found_custom_configuration then
         if type(rock.config) == "string" then
             xpcall(require, function(err)
                 table.insert(rocks_config.failed_to_load, { rock.name, rock.config, err })
             end, rock.config)
-        else
+        elseif rock.config == true or config.config.auto_setup and rock.config ~= false then
             auto_setup(plugin_heuristics, config, rock)
         end
     end
