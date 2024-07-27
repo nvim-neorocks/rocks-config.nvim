@@ -14,6 +14,7 @@ describe("setup", function()
 [plugins]
 "foo.nvim" = "1.0.0"
 "bar.nvim" = "1.0.0"
+"bat.nvim" = { version = "1.0.0", config = "plugins.fledermaus" }
 ]]
         local config = require("rocks.config.internal")
         local fh = assert(io.open(config.config_path, "w"), "Could not open rocks.toml for writing")
@@ -37,9 +38,19 @@ vim.g.bar_nvim_loaded = true
         )
         fh:write(bar_config_content)
         fh:close()
+        local bat_config_content = [[
+vim.g.bat_nvim_loaded = true
+]]
+        fh = assert(
+            io.open(vim.fs.joinpath(tempdir, "lua", "plugins", "fledermaus.lua"), "w"),
+            "Could not open config file for writing"
+        )
+        fh:write(bat_config_content)
+        fh:close()
         vim.opt.runtimepath:append(tempdir)
         rocks_config.setup()
         assert.True(vim.g.foo_nvim_loaded)
         assert.True(vim.g.bar_nvim_loaded)
+        assert.True(vim.g.bat_nvim_loaded)
     end)
 end)
