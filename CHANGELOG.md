@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.1.5](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.1.4...v2.1.5) (2024-07-27)
+
+
+### Bug Fixes
+
+* **auto-setup:** don't error if `setup` fails ([a836ed5](https://github.com/nvim-neorocks/rocks-config.nvim/commit/a836ed5917481d2b1c9d29188c752adac9af48dd))
+* don't error if loading `plugins.&lt;plugin&gt;.config` fails ([c595eea](https://github.com/nvim-neorocks/rocks-config.nvim/commit/c595eea6001c69201cec628700425193aa30c410))
+
 ## [2.1.4](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.1.3...v2.1.4) (2024-07-11)
 
 
