@@ -143,16 +143,20 @@ end
 ---@param config RocksConfigConfig
 ---@param rock RockSpec
 local function auto_setup(plugin_heuristics, config, rock)
-    for _, possible_match in ipairs(plugin_heuristics) do
-        local ok, maybe_module = pcall(require, possible_match)
-        if ok and type(maybe_module) == "table" and type(maybe_module.setup) == "function" then
-            if type(rock.config) == "table" then
-                maybe_module.setup(rock.config)
-            elseif (config.config.auto_setup or rock.config == true) and rock.config ~= false then
-                maybe_module.setup()
+    xpcall(function()
+        for _, possible_match in ipairs(plugin_heuristics) do
+            local ok, maybe_module = pcall(require, possible_match)
+            if ok and type(maybe_module) == "table" and type(maybe_module.setup) == "function" then
+                if type(rock.config) == "table" then
+                    maybe_module.setup(rock.config)
+                elseif (config.config.auto_setup or rock.config == true) and rock.config ~= false then
+                    maybe_module.setup()
+                end
             end
         end
-    end
+    end, function(err)
+        table.insert(rocks_config.failed_to_load, { rock.name, "auto_setup", err })
+    end)
 end
 
 ---Check if any errors were registered during setup.
