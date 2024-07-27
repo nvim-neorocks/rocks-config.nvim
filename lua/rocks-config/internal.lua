@@ -139,6 +139,22 @@ local function load_config(plugin_name, config_basename, mod_name)
     return result
 end
 
+---@param plugin_heuristics string[]
+---@param config RocksConfigConfig
+---@param rock RockSpec
+local function auto_setup(plugin_heuristics, config, rock)
+    for _, possible_match in ipairs(plugin_heuristics) do
+        local ok, maybe_module = pcall(require, possible_match)
+        if ok and type(maybe_module) == "table" and type(maybe_module.setup) == "function" then
+            if type(rock.config) == "table" then
+                maybe_module.setup(rock.config)
+            elseif (config.config.auto_setup or rock.config == true) and rock.config ~= false then
+                maybe_module.setup()
+            end
+        end
+    end
+end
+
 ---Check if any errors were registered during setup.
 ---@return boolean
 local function errors_found()
@@ -185,22 +201,13 @@ function rocks_config.configure(rock, config)
         end
     end
 
-    -- If there is no custom configuration defined by the user then attempt to autoinvoke the setup() function.
+    -- If there is no custom configuration defined by the user
+    -- then check for a rock config or attempt to auto-invoke the setup() function.
     if not found_custom_configuration and (config.config.auto_setup or rock.config) then
         if type(rock.config) == "string" then
             require(rock.config)
         else
-            for _, possible_match in ipairs(plugin_heuristics) do
-                local ok, maybe_module = pcall(require, possible_match)
-
-                if ok and type(maybe_module) == "table" and type(maybe_module.setup) == "function" then
-                    if type(rock.config) == "table" then
-                        maybe_module.setup(rock.config)
-                    elseif (config.config.auto_setup or rock.config == true) and rock.config ~= false then
-                        maybe_module.setup()
-                    end
-                end
-            end
+            auto_setup(plugin_heuristics, config, rock)
         end
     end
 end
