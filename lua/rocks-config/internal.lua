@@ -9,7 +9,7 @@ local rocks_config = {
 ---@type table<rock_name, boolean>
 local _configured_rocks = {}
 
----@class RocksConfigToml: RocksConfigConfig
+---@class RocksConfigToml: rocks-config.Config
 ---@field rocks? table<string, RockSpec[]>
 ---@field plugins? table<string, RockSpec[]>
 ---@field bundles? table<string, rocks-config.Bundle>
@@ -140,7 +140,7 @@ local function load_config(plugin_name, config_basename, mod_name)
 end
 
 ---@param plugin_heuristics string[]
----@param config RocksConfigConfig
+---@param config rocks-config.Config
 ---@param rock RockSpec
 local function auto_setup(plugin_heuristics, config, rock)
     xpcall(function()
@@ -171,20 +171,20 @@ local function get_config()
     return vim.tbl_deep_extend("force", {}, constants.DEFAULT_CONFIG, rocks_toml or {})
 end
 
----@param rock rock_name | RocksConfigRockSpec The rock to configure
----@param config? RocksConfigConfig
+---@param rock rock_name | rocks-config.RockSpec The rock to configure
+---@param config? rocks-config.Config
 function rocks_config.configure(rock, config)
     config = config or get_config()
     if type(rock) == "string" then
         local all_plugins = api.get_user_rocks()
-        ---@cast all_plugins table<string, RocksConfigRockSpec>
+        ---@cast all_plugins table<string, rocks-config.RockSpec>
         if not all_plugins[rock] then
             vim.notify(("[rocks-config.nvim]: Plugin %s not found in rocks.toml"):format(rock), vim.log.levels.ERROR)
             return
         end
         rock = all_plugins[rock]
     end
-    ---@cast rock RocksConfigRockSpec
+    ---@cast rock rocks-config.RockSpec
     local name = rock.name
     if _configured_rocks[name] then
         return
@@ -306,6 +306,7 @@ Falling back to loading plugins from the bundle individually...
 
     all_plugins = all_plugins or api.get_user_rocks()
     for _, rock_spec in pairs(all_plugins) do
+        ---@cast rock_spec rocks-config.RockSpec
         if not rock_spec.opt or config.config.load_opt_plugins then
             rocks_config.configure(rock_spec, config)
         end

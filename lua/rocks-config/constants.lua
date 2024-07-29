@@ -1,8 +1,8 @@
 local constants = {}
 
----@class RocksConfigConfig
+---@class rocks-config.Config
 constants.DEFAULT_CONFIG = {
-    ---@class RocksConfigSettings
+    ---@class rocks-config.Settings
     config = {
         ---@type boolean
         auto_setup = false,
