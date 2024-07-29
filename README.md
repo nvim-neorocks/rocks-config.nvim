@@ -211,7 +211,7 @@ a file in `lua/bundles/language_support.lua`.
 #### `load_opt_plugins`
 
 By default, `rocks-config.nvim` will not load configs for plugins
-with `opt = true`.
+with `opt = true` or plugins that have been marked as `opt`, e.g. by rocks-lazy.nvim.
 You can either override this behaviour by setting `load_opt_plugins = true`,
 or you can load the config for a plugin using the `configure(name)` function:
 
