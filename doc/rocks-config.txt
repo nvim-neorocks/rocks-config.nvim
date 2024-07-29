@@ -1,0 +1,27 @@
+==============================================================================
+rocks-config.nvim Lua API                                         *rocks-config*
+
+rocks-config.RockSpec : RockSpec                         *rocks-config.RockSpec*
+
+    Fields: ~
+        {config?}  (string|boolean)
+
+
+rocks-config.configure.Opts                        *rocks-config.configure.Opts*
+
+    Fields: ~
+        {load_bundle_pre?}  (fun(bundle_items:string[]))
+                                                          Callback that is invoked before loading a plugin bundle.
+                                                          Takes the bundle items as an argument.
+
+
+                                                        *rocks_config.configure*
+rocks_config.configure({plugin}, {opts?})
+    Load a plugin's configuration
+
+    Parameters: ~
+        {plugin}  (string|rocks-config.RockSpec)  The name of the plugin to configure
+        {opts?}   (rocks-config.configure.Opts)
+
+
+vim:tw=78:ts=8:noet:ft=help:norl:
