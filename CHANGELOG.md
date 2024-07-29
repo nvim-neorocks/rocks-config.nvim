@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.1.5...v2.2.0) (2024-07-29)
+
+
+### Features
+
+* override `auto_setup` per plugin via a boolean `config` field ([a8a6862](https://github.com/nvim-neorocks/rocks-config.nvim/commit/a8a68621bb289a3f6abde5d0a96e80261e9858a7))
+
 ## [2.1.5](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.1.4...v2.1.5) (2024-07-27)
 
 
