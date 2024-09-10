@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.2.0...v2.3.0) (2024-09-10)
+
+
+### Features
+
+* vim help docs ([#70](https://github.com/nvim-neorocks/rocks-config.nvim/issues/70)) ([a8de717](https://github.com/nvim-neorocks/rocks-config.nvim/commit/a8de717a3b6606040fd25967dd858605910050e3))
+
 ## [2.2.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.1.5...v2.2.0) (2024-07-29)
 
 
