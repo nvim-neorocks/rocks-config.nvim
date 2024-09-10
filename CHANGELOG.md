@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.3.0...v2.3.1) (2024-09-10)
+
+
+### Bug Fixes
+
+* **vimdoc:** remove .nvim suffix ([90330cd](https://github.com/nvim-neorocks/rocks-config.nvim/commit/90330cdb942210c7eb734a58ecf10b4d3b9d01f4))
+
 ## [2.3.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.2.0...v2.3.0) (2024-09-10)
 
 
