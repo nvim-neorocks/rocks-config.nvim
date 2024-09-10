@@ -1,21 +1,21 @@
-*rocks-config.nvim.txt*       Allow rocks.nvim to help configure your plugins.
+*rocks-config.txt*            Allow rocks.nvim to help configure your plugins.
 
 <https://luarocks.org/modules/neorocks/rocks-config.nvim>
 
 
-SUMMARY                                            *rocks-config.nvim-summary*
+SUMMARY                                                 *rocks-config-summary*
 
 `rocks-config.nvim` extends `rocks.nvim`
 <https://github.com/nvim-neorocks/rocks-config.nvim> with the ability to
 configure your plugins.
 
 
-INSTALLATION                                  *rocks-config.nvim-installation*
+INSTALLATION                                       *rocks-config-installation*
 
 Simply run `:Rocks install rocks-config.nvim`, and you are good to go!
 
 
-USAGE                                                *rocks-config.nvim-usage*
+USAGE                                                     *rocks-config-usage*
 
 With this extension, you can add a `[config]` table to your `rocks.toml`, for
 example:
@@ -131,7 +131,7 @@ load it with `vim.cmd.Rocks({"packadd", "<rock-name>"})` or
 `require("rocks").packadd("<rock-name")`.
 
 
-PLUGIN BUNDLES                              *rocks-config.nvim-plugin-bundles*
+PLUGIN BUNDLES                                   *rocks-config-plugin-bundles*
 
 Apart from configuration on a per-plugin basis, it’s also possible to create
 collections of plugins (called bundles) and configure them all in one go.
@@ -193,7 +193,7 @@ can load the config for a plugin using the `configure(name)` function:
 <
 
 
-NEOVIM CONFIGURATION                  *rocks-config.nvim-neovim-configuration*
+NEOVIM CONFIGURATION                       *rocks-config-neovim-configuration*
 
 You can also use `rocks-config.nvim` to set various Neovim options in your
 rocks.toml.
@@ -213,12 +213,12 @@ Here is an example:
 <
 
 
-LICENSE                                            *rocks-config.nvim-license*
+LICENSE                                                 *rocks-config-license*
 
 `rocks-config.nvim` is licensed under GPLv3 <./LICENSE>.
 
 ==============================================================================
-1. Links                                             *rocks-config.nvim-links*
+1. Links                                                  *rocks-config-links*
 
 1. *LuaRocks*: https://img.shields.io/luarocks/v/neorocks/rocks-config.nvim?logo=lua&color=purple&style=for-the-badge
 

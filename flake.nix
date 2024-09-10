@@ -83,7 +83,7 @@
             panvimdoc = {
               enable = true;
               name = "panvimdoc";
-              entry = "${pkgs.panvimdoc}/bin/panvimdoc --project-name rocks-config.nvim --toc false --treesitter true --demojify true --description ' Allow rocks.nvim to help configure your plugins.' --input-file";
+              entry = "${pkgs.panvimdoc}/bin/panvimdoc --project-name rocks-config --toc false --treesitter true --demojify true --description ' Allow rocks.nvim to help configure your plugins.' --input-file";
               files = "README.md";
             };
           };
