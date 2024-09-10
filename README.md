@@ -220,6 +220,25 @@ require("rocks-config").configure("foo.nvim")
 vim.cmd.packadd("foo.nvim")
 ```
 
+## Neovim configuration
+
+You can also use `rocks-config.nvim` to set various Neovim options
+in your rocks.toml.
+
+Here is an example:
+
+```toml
+[config]
+colorscheme = "kanagawa"
+
+[config.options]
+number = true
+relativenumber = true
+hlsearch = true
+completeopt = 'menu,menuone,noinsert,fuzzy,preview,noselect'
+# ...
+```
+
 ## :book: License
 
 `rocks-config.nvim` is licensed under [GPLv3](./LICENSE).
