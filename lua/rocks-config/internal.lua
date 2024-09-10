@@ -9,7 +9,7 @@ local rocks_config = {
 ---@type table<rock_name, boolean>
 local _configured_rocks = {}
 
----@class RocksConfigToml: rocks-config.Config
+---@class rocks-config.Toml: rocks-config.Config
 ---@field rocks? table<string, RockSpec[]>
 ---@field plugins? table<string, RockSpec[]>
 ---@field bundles? table<string, rocks-config.Bundle>
@@ -165,7 +165,7 @@ local function errors_found()
     return #rocks_config.duplicate_configs_found > 0 or #rocks_config.failed_to_load > 0
 end
 
----@return RocksConfigToml
+---@return rocks-config.Toml
 local function get_config()
     local rocks_toml = api.get_rocks_toml()
     return vim.tbl_deep_extend("force", {}, constants.DEFAULT_CONFIG, rocks_toml or {})
