@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.3.1...v3.0.0) (2024-09-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* don't load bundles with `opt` items, add api for loading them ([#61](https://github.com/nvim-neorocks/rocks-config.nvim/issues/61))
+
+### Features
+
+* don't load bundles with `opt` items, add api for loading them ([#61](https://github.com/nvim-neorocks/rocks-config.nvim/issues/61)) ([41c08bf](https://github.com/nvim-neorocks/rocks-config.nvim/commit/41c08bf2bc835be6c9cf71b2399417056bf07627))
+
 ## [2.3.1](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.3.0...v2.3.1) (2024-09-10)
 
 
