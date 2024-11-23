@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v3.0.0...v3.1.0) (2024-11-23)
+
+
+### Features
+
+* support `.lua` and `-lua` suffixes for main module detection ([#75](https://github.com/nvim-neorocks/rocks-config.nvim/issues/75)) ([95d02b6](https://github.com/nvim-neorocks/rocks-config.nvim/commit/95d02b6a2f05e813950017bdf6a70628e88980bf))
+
 ## [3.0.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v2.3.1...v3.0.0) (2024-09-16)
 
 
