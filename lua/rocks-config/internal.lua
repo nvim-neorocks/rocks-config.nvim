@@ -40,6 +40,7 @@ local function create_plugin_heuristics(name)
     return dedup({
         name,
         name:gsub("[%.%-]n?vim$", ""):gsub("n?vim%-", ""),
+        name:gsub("[%.%-]lua$", ""):gsub("n?vim%-", ""),
         name:gsub("%.", "-"),
         name .. "-nvim",
     })
