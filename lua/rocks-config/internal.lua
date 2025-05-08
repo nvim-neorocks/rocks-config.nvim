@@ -217,13 +217,17 @@ function rocks_config.configure(rock, config)
             xpcall(require, function(err)
                 table.insert(rocks_config.failed_to_load, { rock.name, rock.config, err })
             end, rock.config)
-        elseif rock.config == true or config.config.auto_setup and rock.config ~= false then
+        elseif
+            type(rock.config) == "table"
+            or rock.config == true
+            or config.config.auto_setup and rock.config ~= false
+        then
             auto_setup(plugin_heuristics, config, rock)
         end
     end
 end
 
----@param config RocksConfigToml
+---@param config rocks-config.Toml
 ---@param rock_name string
 ---@return RockSpec | nil
 local function get_rock_from_config(config, rock_name)
@@ -234,7 +238,7 @@ end
 ---@field items? rock_name[]
 ---@field config? string
 
----@param config RocksConfigToml
+---@param config rocks-config.Toml
 ---@param bundle_name string
 ---@param bundle rocks-config.Bundle
 local function load_bundle(config, bundle_name, bundle)
