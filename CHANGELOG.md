@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v3.1.0...v3.1.1) (2025-05-08)
+
+
+### Bug Fixes
+
+* plugin config not loaded if type is table ([#79](https://github.com/nvim-neorocks/rocks-config.nvim/issues/79)) ([781b18b](https://github.com/nvim-neorocks/rocks-config.nvim/commit/781b18bb03661d7bb79ea66775619babe3d00dcf))
+
 ## [3.1.0](https://github.com/nvim-neorocks/rocks-config.nvim/compare/v3.0.0...v3.1.0) (2024-11-23)
 
 
